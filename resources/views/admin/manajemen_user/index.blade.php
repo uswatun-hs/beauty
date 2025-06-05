@@ -30,7 +30,8 @@
                             <td>
                                 <a href="{{ route('admin.manajemen_user.edit', $user->id) }}"
                                     class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('manajemen_user.destroy', $user->id) }}" method="POST"
+                                <form action="{{ route('admin.manajemen_user.destroy', $user->id) }}" method="POST"
+
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')

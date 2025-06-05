@@ -12,7 +12,7 @@
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
 
                 <li class="nav-item menu-open">
-                    <a href="{{ route('pelanggan.dashboard') }}"
+                    <a href="{{ route('pelanggan.dashboard.') }}"
                         class="nav-link {{ request()->routeIs('pelanggan.dashboard') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Dashboard</p>

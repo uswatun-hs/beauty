@@ -16,8 +16,8 @@ class CartController extends Controller
             'layanan_id' => $layanan_id,
         ]);
 
-        $cart->jumlah += 1;
-        $cart->save();
+        $carts->jumlah += 1;
+        $carts->save();
 
         return redirect()->back()->with('success', 'Layanan ditambahkan ke keranjang.');
     }

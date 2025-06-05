@@ -21,7 +21,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('admin.manajemen_user.index') }}"
-                        class="nav-link {{ request()->routeIs('manajemen_user.*') ? 'active' : '' }}">
+                        class="nav-link {{ request()->routeIs('admin.manajemen_user.*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-palette"></i>
                         <p>Manajemen User</p>
                     </a>

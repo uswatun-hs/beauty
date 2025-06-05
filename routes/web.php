@@ -27,7 +27,7 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelang
     ->name('pelanggan.')
     ->group(function () {
         Route::get('/dashboard', [DashboardPelangganController::class, 'index'])->name('dashboard');
-       // Route::resource('cart', CartController::class);
+       //Route::resource('cart', CartController::class);
         //Route::get('order', [OrderController::class, 'index'])->name('checkout');
         Route::get('orders', [OrderController::class, 'index'])->name('orders');
         Route::resource('layanan', PelangganLayananController::class);
