@@ -2,22 +2,36 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\DashboardAdminController;
-use App\Http\Controllers\Admin\ManajemenUserController;
-use App\Http\Controllers\Admin\KaryawanController;
-use App\Http\Controllers\Admin\LayananController;
+use App\Http\Controllers\admin\DashboardAdminController;
+use App\Http\Controllers\admin\ManajemenUserController;
+use App\Http\Controllers\admin\KaryawanController;
+use App\Http\Controllers\admin\LayananController as AdminLayananController;
+use App\Http\Controllers\pelanggan\DashboardPelangganController;
+use App\Http\Controllers\pelanggan\CartController;
+use App\Http\Controllers\pelanggan\OrderController;
+use App\Http\Controllers\pelanggan\LayananController as PelangganLayananController;
 
 // Routes untuk admin (dengan RoleMiddleware jika ingin batasi akses hanya untuk admin)
 Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])
     ->prefix('admin')
-    ->name('admin.') // prefix nama route jadi admin.*
+    ->name('admin.')
     ->group(function () {
         Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
         Route::resource('manajemen_user', ManajemenUserController::class);
         Route::resource('karyawan', KaryawanController::class);
-        Route::resource('layanan', LayananController::class);
+        Route::resource('layanan', AdminLayananController::class);
     });
 
+Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelanggan'])
+    ->prefix('pelanggan')
+    ->name('pelanggan.')
+    ->group(function () {
+        Route::get('/dashboard', [DashboardPelangganController::class, 'index'])->name('dashboard');
+       // Route::resource('cart', CartController::class);
+        //Route::get('order', [OrderController::class, 'index'])->name('checkout');
+        Route::get('orders', [OrderController::class, 'index'])->name('orders');
+        Route::resource('layanan', PelangganLayananController::class);
+    });
 
 
 // Profile user
@@ -32,4 +46,4 @@ Route::middleware(['auth'])->group(function () {
 
 
 // Auth routes dari Breeze
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

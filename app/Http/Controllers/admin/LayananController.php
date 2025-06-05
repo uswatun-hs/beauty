@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\Layanan;
-use App\Models\Karyawan;
+use App\Models\admin\Layanan;
+use App\Models\admin\Karyawan;
 use Illuminate\Http\Request;
 
 class LayananController extends Controller
