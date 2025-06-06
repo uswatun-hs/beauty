@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\pelanggan;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Layanan; // pakai model layanan admin supaya data sama
 use Illuminate\Http\Request;
-use App\Models\pelanggan\Layanan;
 
 class LayananController extends Controller
 {
-    /**
-     * Tampilkan semua layanan untuk pelanggan.
-     */
     public function index()
     {
-        $layanans = Layanan::latest()->paginate(10);
+        // Ambil semua layanan termasuk relasi karyawan jika perlu
+        $layanans = Layanan::with('karyawan')->get();
+
+        // Kirim data ke view pelanggan.layanan.index
         return view('pelanggan.layanan.index', compact('layanans'));
     }
 
-    /**
-     * Tampilkan detail layanan tertentu.
-     */
-    public function show($id)
+    public function show(Layanan $layanan)
     {
-        $layanan = Layanan::findOrFail($id);
+        // Detail layanan yang dipilih
         return view('pelanggan.layanan.show', compact('layanan'));
     }
+
+    // Kalau tidak perlu fitur create, store, edit, update, destroy untuk pelanggan,
+    // jangan buat atau bisa di disable supaya pelanggan tidak bisa tambah/ubah layanan.
 }

@@ -7,8 +7,8 @@ use App\Http\Controllers\admin\ManajemenUserController;
 use App\Http\Controllers\admin\KaryawanController;
 use App\Http\Controllers\admin\LayananController as AdminLayananController;
 use App\Http\Controllers\pelanggan\DashboardPelangganController;
-use App\Http\Controllers\pelanggan\CartController;
-use App\Http\Controllers\pelanggan\OrderController;
+//use App\Http\Controllers\pelanggan\CartController;
+//use App\Http\Controllers\pelanggan\OrderController;
 use App\Http\Controllers\pelanggan\LayananController as PelangganLayananController;
 
 // Routes untuk admin (dengan RoleMiddleware jika ingin batasi akses hanya untuk admin)
@@ -27,11 +27,11 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelang
     ->name('pelanggan.')
     ->group(function () {
         Route::get('/dashboard', [DashboardPelangganController::class, 'index'])->name('dashboard');
-       //Route::resource('cart', CartController::class);
-        //Route::get('order', [OrderController::class, 'index'])->name('checkout');
-        Route::get('orders', [OrderController::class, 'index'])->name('orders');
         Route::resource('layanan', PelangganLayananController::class);
+        // ...
     });
+
+
 
 
 // Profile user

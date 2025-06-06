@@ -7,23 +7,24 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Menjalankan migrasi.
      */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-    $table->enum('role', ['admin', 'owner', 'karyawan', 'pelanggan'])->default('pelanggan')->after('password');
-});
-
+            $table->enum('role', ['admin', 'owner', 'karyawan', 'pelanggan'])
+                ->default('pelanggan')
+                ->after('password');
+        });
     }
 
     /**
-     * Reverse the migrations.
+     * Membatalkan migrasi.
      */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('role');
         });
     }
 };

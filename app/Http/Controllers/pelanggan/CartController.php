@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controller\pelanggan;
+namespace App\Http\Controllers\pelanggan;
 
 use App\Http\Controllers\Controller;
 use App\Models\pelanggan\Cart;

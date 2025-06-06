@@ -74,4 +74,5 @@ class LayananController extends Controller
         $layanan->delete();
         return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil dihapus.');
     }
+    
 }
