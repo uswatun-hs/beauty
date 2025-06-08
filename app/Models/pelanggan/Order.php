@@ -1,31 +1,27 @@
 <?php
 
-namespace App\Models\pelanggan;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pelanggan\Layanan; // pastikan foldernya dan nama kelas benar
+use App\Models\User; // perlu import User juga supaya relasi user() berfungsi
 
 class Order extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'user_id',
-        'total_harga',
+        'layanan_id',
+        'jumlah',
         'status',
-        'nama_pelanggan',
-        'no_telepon',
-        'tempat_layanan',
-        'alamat',
     ];
-
-    public function items()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function layanan()
+    {
+        return $this->belongsTo(Layanan::class);
     }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\admin\ManajemenUserController;
 use App\Http\Controllers\admin\KaryawanController;
 use App\Http\Controllers\admin\LayananController as AdminLayananController;
 use App\Http\Controllers\pelanggan\DashboardPelangganController;
+use App\Http\Controllers\pelanggan\KeranjangController;
+use App\Http\Controllers\pelanggan\OrderController;
 //use App\Http\Controllers\pelanggan\CartController;
 //use App\Http\Controllers\pelanggan\OrderController;
 use App\Http\Controllers\pelanggan\LayananController as PelangganLayananController;
@@ -28,8 +30,14 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelang
     ->group(function () {
         Route::get('/dashboard', [DashboardPelangganController::class, 'index'])->name('dashboard');
         Route::resource('layanan', PelangganLayananController::class);
-        // ...
+        Route::resource('keranjang', KeranjangController::class)->only(['index', 'store', 'destroy', 'update']);
+        Route::put('pelanggan/order/{order}', [OrderController::class, 'update'])->name('pelanggan.order.update');
+        Route::put('pelanggan/keranjang/{id}', [KeranjangController::class, 'update'])->name('pelanggan.keranjang.update');
+        Route::resource('order', OrderController::class)->only(['index', 'store', 'destroy']);
     });
+
+
+// ...z
 
 
 

@@ -11,17 +11,31 @@
         <nav class="mt-2">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
 
-                <li class="nav-item menu-open">
-                    <a href="{{ route('pelanggan.dashboard') }}" ...>Dashboard</a>
+                <a href="{{ route('pelanggan.dashboard') }}"
+                    class="nav-link {{ request()->routeIs('pelanggan.dashboard.*') ? 'active' : '' }}">
+                    Dashboard
+                </a>
 
-                    <a href="{{ route('pelanggan.layanan.index') }}"
-                        class="nav-link {{ request()->routeIs('pelanggan.layanan.*') ? 'active' : '' }}">
-                        Layanan
+                <a href="{{ route('pelanggan.layanan.index') }}"
+                    class="nav-link {{ request()->routeIs('pelanggan.layanan.*') ? 'active' : '' }}">
+                    Layanan
+                </a>
+
+                <li class="nav-item">
+                    <a href="{{ route('pelanggan.keranjang.index') }}"
+                        class="nav-link {{ request()->routeIs('pelanggan.keranjang.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-cart"></i>
+                        <p>Keranjang</p>
                     </a>
+                </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('pelanggan.order.index') }}" class="nav-link">
+                        <i class="bi bi-bag-check"></i>
+                        <p>Riwayat Pesanan</p>
+                    </a>
+                </li>
 
-
-                   
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">

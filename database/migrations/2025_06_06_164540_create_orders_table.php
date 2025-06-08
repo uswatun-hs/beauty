@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('menunggu');
-            $table->decimal('total_harga', 10, 2);
+            $table->foreignId('user_id')
+                ->constrained() // otomatis mengacu ke tabel users dan kolom id
+                ->onDelete('cascade');
+            $table->foreignId('layanan_id')
+                ->constrained('layanans') // mengacu ke tabel layanans kolom id
+                ->onDelete('cascade');
+            $table->integer('jumlah')->default(1);
+            $table->string('status')->default('menunggu konfirmasi');
             $table->timestamps();
         });
     }
