@@ -1,20 +1,35 @@
 @extends('pelanggan.layouts.main')
 
 @section('content')
-    <h1>{{ $layanan->nama }}</h1>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ asset('storage/' . $layanan->gambar) }}" alt="{{ $layanan->nama }}"
+                    class="img-fluid rounded shadow" style="max-height: 400px; object-fit: cover;">
+            </div>
+            <div class="col-md-6">
+                <h2 class="mb-3">{{ $layanan->nama }}</h2>
 
-    <img src="{{ asset('storage/' . $layanan->gambar) }}" width="300" alt="{{ $layanan->nama }}">
+                <p class="fs-5">
+                    <strong>Harga:</strong> Rp {{ number_format($layanan->harga, 0, ',', '.') }}
+                </p>
 
-    <p><strong>Harga:</strong> Rp {{ number_format($layanan->harga, 0, ',', '.') }}</p>
-    <p><strong>Deskripsi:</strong> {{ $layanan->deskripsi }}</p>
+                <p class="text-muted">
+                    <strong>Deskripsi:</strong><br>
+                    {{ $layanan->deskripsi }}
+                </p>
 
-    <a href="{{ route('pelanggan.layanan.index') }}">← Kembali ke daftar layanan</a>
-    <form action="{{ route('pelanggan.keranjang.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="layanan_id" value="{{ $layanan->id }}">
-    <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
-</form>
-
-
-
+                <form action="{{ route('pelanggan.keranjang.store') }}" method="POST" class="mt-4">
+                    @csrf
+                    <input type="hidden" name="layanan_id" value="{{ $layanan->id }}">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-cart-plus me-1"></i> Tambah ke Keranjang
+                    </button>
+                    <a href="{{ route('pelanggan.layanan.index') }}" class="btn btn-outline-secondary ms-2">
+                        ← Kembali
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection

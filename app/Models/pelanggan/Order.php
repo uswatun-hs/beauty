@@ -1,27 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\pelanggan;
+//namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Pelanggan\Layanan; // pastikan foldernya dan nama kelas benar
-use App\Models\User; // perlu import User juga supaya relasi user() berfungsi
 
 class Order extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'layanan_id',
-        'jumlah',
-        'status',
-    ];
+    protected $fillable = ['user_id', 'status']; // sesuaikan jika perlu
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id');
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function layanan()
-    {
-        return $this->belongsTo(Layanan::class);
     }
 }

@@ -1,75 +1,88 @@
 @extends('pelanggan.layouts.main')
 
 @section('content')
-    <div class="container">
-        <h3>Keranjang Anda</h3>
+    <div class="container my-5">
+        <h3 class="mb-4">Keranjang Anda</h3>
 
         @if ($keranjangs->isEmpty())
-            <p>Keranjang kosong.</p>
+            <div class="alert alert-info">Keranjang kosong.</div>
         @else
-            <form method="POST" action="{{ route('pelanggan.order.store') }}">
-                @csrf
-
-                <table class="table">
-                    <thead>
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 5%;">
+                            <input type="checkbox" id="checkAll">
+                        </th>
+                        <th>Layanan</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
+                        <th style="width: 10%;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($keranjangs as $item)
                         <tr>
-                            <th><input type="checkbox" id="checkAll" /></th>
-                            <th>Layanan</th>
-                            <th>Harga</th>
-                            <th>Jumlah</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($keranjangs as $item)
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="layanan_ids[]"
-                                        value="{{ $item['layanan_id'] ?? $item->id }}" />
-                                </td>
-                                <td>{{ $item['nama'] ?? $item->layanan->nama }}</td>
-                                <td>{{ $item['harga'] ?? $item->layanan->harga }}</td>
-                                <td>
-                                    <div class="input-group" style="max-width: 120px;">
-                                        <form method="POST"
-                                            action="{{ route('pelanggan.keranjang.update', $item['layanan_id'] ?? $item->id) }}"
-                                            style="display: flex;">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" name="action" value="decrease"
-                                                class="btn btn-sm btn-secondary">-</button>
-                                            <input type="text" name="jumlah" value="{{ $item['jumlah'] }}"
-                                                class="form-control text-center" readonly>
-                                            <button type="submit" name="action" value="increase"
-                                                class="btn btn-sm btn-secondary">+</button>
-                                        </form>
-                                    </div>
-                                </td>
-
-                                <td>
+                            <td>
+                                <form method="POST" id="selectForm{{ $item->layanan_id }}">
+                                    {{-- Checkbox masuk form order --}}
+                                    <input type="checkbox" name="layanan_ids[]" form="orderForm"
+                                        value="{{ $item->layanan_id }}">
+                                </form>
+                            </td>
+                            <td>{{ $item->layanan->nama }}</td>
+                            <td>Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    {{-- Tombol - --}}
                                     <form method="POST"
-                                        action="{{ route('pelanggan.keranjang.destroy', $item['layanan_id'] ?? $item->id) }}"
-                                        onsubmit="return confirm('Yakin ingin menghapus item ini?')">
+                                        action="{{ route('pelanggan.keranjang.update', $item->layanan_id) }}">
                                         @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        @method('PUT')
+                                        <input type="hidden" name="action" value="decrease">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
                                     </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
 
-                <button type="submit" class="btn btn-primary mt-2">Order</button>
+                                    <input type="text" value="{{ $item->jumlah }}"
+                                        class="form-control form-control-sm text-center mx-1" readonly style="width: 50px;">
 
-                @if (session('success'))
-                    <div class="alert alert-success mt-3">{{ session('success') }}</div>
-                @endif
+                                    {{-- Tombol + --}}
+                                    <form method="POST"
+                                        action="{{ route('pelanggan.keranjang.update', $item->layanan_id) }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="action" value="increase">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ route('pelanggan.keranjang.destroy', $item->layanan_id) }}"
+                                    onsubmit="return confirm('Yakin ingin menghapus item ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-                @if (session('error'))
-                    <div class="alert alert-danger mt-3">{{ session('error') }}</div>
-                @endif
+            {{-- Form Order Sekarang, terpisah --}}
+            <form method="POST" action="{{ route('pelanggan.order.store') }}" id="orderForm">
+                @csrf
+                <button type="submit" class="btn btn-primary mt-3">
+                    <i class="bi bi-bag-check"></i> Order Sekarang
+                </button>
             </form>
+
+            @if (session('success'))
+                <div class="alert alert-success mt-3">{{ session('success') }}</div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+            @endif
         @endif
     </div>
 
@@ -79,7 +92,7 @@
             if (checkAll) {
                 checkAll.addEventListener('change', function() {
                     const checkboxes = document.querySelectorAll('input[name="layanan_ids[]"]');
-                    checkboxes.forEach(cb => cb.checked = checkAll.checked);
+                    checkboxes.forEach(cb => cb.checked = this.checked);
                 });
             }
         });

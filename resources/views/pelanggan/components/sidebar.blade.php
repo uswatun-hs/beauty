@@ -11,35 +11,42 @@
         <nav class="mt-2">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
 
-                <a href="{{ route('pelanggan.dashboard') }}"
-                    class="nav-link {{ request()->routeIs('pelanggan.dashboard.*') ? 'active' : '' }}">
-                    Dashboard
-                </a>
+                <li class="nav-item">
+                    <a href="{{ route('pelanggan.dashboard') }}"
+                        class="nav-link {{ request()->routeIs('pelanggan.dashboard.*') ? 'active' : '' }}">
+                        <i class="bi bi-speedometer2 me-2"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
 
-                <a href="{{ route('pelanggan.layanan.index') }}"
-                    class="nav-link {{ request()->routeIs('pelanggan.layanan.*') ? 'active' : '' }}">
-                    Layanan
-                </a>
+                <li class="nav-item">
+                    <a href="{{ route('pelanggan.layanan.index') }}"
+                        class="nav-link {{ request()->routeIs('pelanggan.layanan.*') ? 'active' : '' }}">
+                        <i class="bi bi-brush me-2"></i>
+                        <p>Layanan</p>
+                    </a>
+                </li>
+
 
                 <li class="nav-item">
                     <a href="{{ route('pelanggan.keranjang.index') }}"
                         class="nav-link {{ request()->routeIs('pelanggan.keranjang.*') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-cart"></i>
+                        <i class="bi bi-cart me-2"></i>
                         <p>Keranjang</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('pelanggan.order.index') }}" class="nav-link">
-                        <i class="bi bi-bag-check"></i>
+                    <a href="{{ route('pelanggan.order.index') }}"
+                        class="nav-link {{ request()->routeIs('pelanggan.order.*') ? 'active' : '' }}">
+                        <i class="bi bi-bag-check me-2"></i>
                         <p>Riwayat Pesanan</p>
                     </a>
                 </li>
 
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill me-2"></i>
                         <p>Rating & Ulasan</p>
                     </a>
                 </li>

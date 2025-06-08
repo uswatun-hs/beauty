@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\DashboardAdminController;
+//use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ManajemenUserController;
 use App\Http\Controllers\admin\KaryawanController;
 use App\Http\Controllers\admin\LayananController as AdminLayananController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\pelanggan\KeranjangController;
 use App\Http\Controllers\pelanggan\OrderController;
 //use App\Http\Controllers\pelanggan\CartController;
 //use App\Http\Controllers\pelanggan\OrderController;
+use App\Http\Controllers\admin\OrderController as AdminOrderController;
 use App\Http\Controllers\pelanggan\LayananController as PelangganLayananController;
 
 // Routes untuk admin (dengan RoleMiddleware jika ingin batasi akses hanya untuk admin)
@@ -22,6 +24,7 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'
         Route::resource('manajemen_user', ManajemenUserController::class);
         Route::resource('karyawan', KaryawanController::class);
         Route::resource('layanan', AdminLayananController::class);
+        Route::get('order', AdminOrderController::class, 'index')->name('orders.index');
     });
 
 Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelanggan'])
@@ -30,11 +33,12 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelang
     ->group(function () {
         Route::get('/dashboard', [DashboardPelangganController::class, 'index'])->name('dashboard');
         Route::resource('layanan', PelangganLayananController::class);
-        Route::resource('keranjang', KeranjangController::class)->only(['index', 'store', 'destroy', 'update']);
-        Route::put('pelanggan/order/{order}', [OrderController::class, 'update'])->name('pelanggan.order.update');
-        Route::put('pelanggan/keranjang/{id}', [KeranjangController::class, 'update'])->name('pelanggan.keranjang.update');
+        Route::resource('keranjang', KeranjangController::class)->only(['index', 'store']);
+        Route::delete('keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
+        Route::put('keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
         Route::resource('order', OrderController::class)->only(['index', 'store', 'destroy']);
     });
+
 
 
 // ...z

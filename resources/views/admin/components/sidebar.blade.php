@@ -43,6 +43,14 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.layanan.index') }}"
+                        class="nav-link {{ request()->routeIs('layanan.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-person-badge-fill"></i>
+                        <p>Data Pesanan</p>
+                    </a>
+                </li>
+
 
 
                 <li class="nav-item">
