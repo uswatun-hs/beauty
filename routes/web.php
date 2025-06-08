@@ -24,7 +24,8 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'
         Route::resource('manajemen_user', ManajemenUserController::class);
         Route::resource('karyawan', KaryawanController::class);
         Route::resource('layanan', AdminLayananController::class);
-        Route::get('order', AdminOrderController::class, 'index')->name('orders.index');
+        Route::resource('order', AdminOrderController::class)->only(['index']);
+        Route::put('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     });
 
 Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelanggan'])

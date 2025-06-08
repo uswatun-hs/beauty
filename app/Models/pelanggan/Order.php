@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Models\pelanggan;
-//namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User; // Tambahkan ini
+use App\Models\pelanggan\OrderDetail;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id', 'status']; // sesuaikan jika perlu
+    protected $fillable = ['user_id', 'status'];
 
     public function orderDetails()
     {
