@@ -14,6 +14,7 @@
                             <input type="checkbox" id="checkAll">
                         </th>
                         <th>Layanan</th>
+                        <th>Foto</th>
                         <th>Harga</th>
                         <th>Jumlah</th>
                         <th style="width: 10%;">Aksi</th>
@@ -30,6 +31,13 @@
                                 </form>
                             </td>
                             <td>{{ $item->layanan->nama }}</td>
+                            <td>
+                                <img src="{{ asset('storage/' . $item->layanan->gambar) }}" alt="{{ $item->layanan->nama }}"
+                                    width="60" class="img-thumbnail me-1 mb-1">
+                            </td>
+
+
+
                             <td>Rp {{ number_format($item->layanan->harga, 0, ',', '.') }}</td>
                             <td>
                                 <div class="d-flex">

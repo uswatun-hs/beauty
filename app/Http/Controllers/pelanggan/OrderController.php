@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\pelanggan\Order;
 use App\Models\pelanggan\OrderDetail;
 use App\Models\pelanggan\Keranjang;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrderController extends Controller
 {
+
     public function index()
     {
-        // Misal tampilkan semua order user
-        $orders = auth()->user()->orders()->with('orderDetails.layanan')->get();
+        $orders = auth()->user()->orders()
+            ->with('orderDetails.layanan')
+            ->orderBy('created_at', 'desc') // urutkan dari terbaru
+            ->paginate(10); // paginate sebelum ambil data
 
         return view('pelanggan.order.index', compact('orders'));
     }
@@ -78,5 +82,54 @@ class OrderController extends Controller
         $order->delete();
 
         return redirect()->route('pelanggan.order.index')->with('success', 'Order berhasil dihapus.');
+    }
+    public function uploadBukti(Request $request, Order $order)
+    {
+        $request->validate([
+            'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($order->user_id != auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $path = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+
+        $order->bukti_pembayaran = $path;
+        $order->status = 'menunggu_konfirmasi'; // status baru
+        $order->save();
+
+
+        return back()->with('success', 'Bukti pembayaran berhasil dikirim.');
+    }
+
+    use AuthorizesRequests;
+    public function paymentForm(Order $order)
+    {
+
+        $this->authorize('view', $order); // pastikan user punya akses
+
+        if ($order->status !== 'menunggu_pembayaran') {
+            return redirect()->route('pelanggan.order.index')->with('error', 'Pembayaran tidak tersedia.');
+        }
+
+        return view('pelanggan.order.paymentForm', compact('order'));
+    }
+
+    public function processPayment(Request $request, Order $order)
+    {
+        $this->authorize('update', $order);
+
+        $request->validate([
+            'bukti_pembayaran' => 'required|image|max:2048',
+        ]);
+
+        $path = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+
+        $order->bukti_pembayaran = $path;
+        $order->status = 'menunggu_konfirmasi';
+        $order->save();
+
+        return redirect()->route('pelanggan.order.index')->with('success', 'Bukti pembayaran berhasil diupload. Silakan tunggu konfirmasi.');
     }
 }

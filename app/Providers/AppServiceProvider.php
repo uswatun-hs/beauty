@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        
+
     }
 
     /**
@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
-
-
+    protected $policies = [
+        \App\Models\pelanggan\Order::class => \App\Policies\OrderPolicy::class,
+    ];
 }

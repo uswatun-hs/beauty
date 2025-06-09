@@ -12,6 +12,8 @@
                     <th>Status</th>
                     <th>Detail Pesanan</th>
                     <th>Tanggal Pesan</th>
+                    <th>Bukti Pembayaran</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,10 +55,31 @@
                             </ul>
                         </td>
                         <td>{{ $order->created_at->format('d M Y H:i') }}</td>
+                        <td>
+                            @if ($order->bukti_pembayaran)
+                                <a href="{{ asset('storage/' . $order->bukti_pembayaran) }}" target="_blank"
+                                    class="btn btn-sm btn-info">
+                                    Lihat Bukti
+                                </a>
+                            @else
+                                <span class="text-muted">Belum diupload</span>
+                            @endif
+                        </td>
+
+                        <td>
+                            @if ($order->status === 'menunggu_konfirmasi' && $order->bukti_pembayaran)
+                                <form action="{{ route('admin.order.konfirmasiPembayaran', $order->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-success">Konfirmasi Pembayaran</button>
+                                </form>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">Belum ada pesanan</td>
+                        <td colspan="6" class="text-center">Belum ada pesanan</td>
                     </tr>
                 @endforelse
             </tbody>
