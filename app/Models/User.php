@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -48,5 +49,10 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(\App\Models\pelanggan\Order::class, 'user_id');
+    }
+    // Di User.php
+    public function karyawan()
+    {
+        return $this->hasOne(\App\Models\admin\Karyawan::class, 'email', 'email');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\karyawan;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\pelanggan\Order;
@@ -9,15 +10,28 @@ use App\Models\pelanggan\OrderDetail;
 
 class OrderController extends Controller
 {
-    public function index()
-{
-    // urut berdasarkan created_at descending (pesanan terbaru di atas)
-    $orders = Order::with(['user', 'orderDetails.layanan'])
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
 
-    return view('karyawan.order.index', compact('orders'));
-}
+    public function index()
+    {
+        $karyawan = auth()->user()->karyawan;
+
+        if (!$karyawan) {
+            return abort(403, 'Karyawan tidak ditemukan.');
+        }
+
+        // Ambil semua ID layanan yang dimiliki karyawan ini
+        $layananIds = $karyawan->layanans->pluck('id');
+
+        // Ambil hanya pesanan yang detailnya terkait layanan milik karyawan ini
+        $orders = Order::whereHas('orderDetails', function ($query) use ($layananIds) {
+            $query->whereIn('layanan_id', $layananIds);
+        })
+            ->with(['user', 'orderDetails.layanan'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('karyawan.order.index', compact('orders'));
+    }
 
 
     public function updateStatus(Request $request, Order $order)

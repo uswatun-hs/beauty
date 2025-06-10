@@ -4,9 +4,10 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="m-0 flex-grow-1">Data Users</h3>
 
-            <a href="" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah
-            </a>
+          <a href="{{ route('admin.manajemen_user.create') }}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Tambah
+</a>
+
         </div>
 
         <div class="card-body">

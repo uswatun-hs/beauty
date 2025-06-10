@@ -16,4 +16,6 @@ class Layanan extends Model
         // Jika Karyawan model juga di namespace admin, panggil full namespace
         return $this->belongsTo(\App\Models\admin\Karyawan::class);
     }
+   
+
 }

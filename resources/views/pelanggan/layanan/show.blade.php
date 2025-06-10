@@ -18,7 +18,11 @@
                     <strong>Deskripsi:</strong><br>
                     {{ $layanan->deskripsi }}
                 </p>
+                <p class="text-muted">
+                    <strong>Baeutician : </strong>
+                {{ $layanan->karyawan->nama }}
 
+                </p>
                 <form action="{{ route('pelanggan.keranjang.store') }}" method="POST" class="mt-4">
                     @csrf
                     <input type="hidden" name="layanan_id" value="{{ $layanan->id }}">

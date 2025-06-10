@@ -18,6 +18,6 @@ class ManajemenUserController extends Controller
     public function destroy(User $manajemen_user)
     {
         $manajemen_user->delete();
-        return redirect()->route('manajemen_user.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('owner.manajemen_user.index')->with('success', 'User berhasil dihapus.');
     }
 }

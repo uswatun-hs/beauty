@@ -48,25 +48,29 @@ class ManajemenUserController extends Controller
     // Update user
     public function update(Request $request, User $manajemen_user)
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
+        $request->validate([
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $manajemen_user->id,
-            'role' => 'required|string',
+            'role' => 'required|in:admin,owner,karyawan,pelanggan',
+            'password' => 'nullable|string|min:6', // opsional, min 6 karakter jika diisi
         ]);
 
+        $data = $request->only('name', 'email', 'role');
+
         if ($request->filled('password')) {
-            $validated['password'] = Hash::make($request->password);
+            $data['password'] = \Hash::make($request->password);
         }
 
-        $manajemen_user->update($validated);
+        $manajemen_user->update($data);
 
-        return redirect()->route('manajemen_user.index')->with('success', 'User berhasil diupdate.');
+        return redirect()->route('admin.manajemen_user.index')->with('success', 'User berhasil diperbarui.');
     }
+
 
     // Hapus user
     public function destroy(User $manajemen_user)
     {
         $manajemen_user->delete();
-        return redirect()->route('manajemen_user.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('admin.manajemen_user.index')->with('success', 'User berhasil dihapus.');
     }
 }
