@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\admin;
-
+namespace App\Http\Controllers\karyawan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\pelanggan\Order;
 use App\Models\User;
 use App\Models\pelanggan\OrderDetail;
-use App\Models\pelanggan\Order;
 
 class OrderController extends Controller
 {
-public function index()
+    public function index()
 {
     // urut berdasarkan created_at descending (pesanan terbaru di atas)
     $orders = Order::with(['user', 'orderDetails.layanan'])
         ->orderBy('created_at', 'desc')
         ->paginate(10);
 
-    return view('admin.order.index', compact('orders'));
+    return view('karyawan.order.index', compact('orders'));
 }
 
 

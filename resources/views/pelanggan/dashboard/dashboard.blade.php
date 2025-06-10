@@ -35,7 +35,7 @@
                             <div class="info-box-content">
                                 <span class="info-box-text">Jumlah Keranjang</span>
                                 <span class="info-box-number">
-                                    0
+                                    {{ $jumlahkeranjang }}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -50,7 +50,7 @@
                             </span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Jumlah Order</span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-number">{{ $jumlahorder }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -66,7 +66,7 @@
                             </span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Jumlah Layanan</span>
-                                <span class="info-box-number">0</span>
+                                <span class="info-box-number">{{ $jumlahlayanan }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>

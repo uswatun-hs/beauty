@@ -54,7 +54,8 @@
 
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.ulasan.index') }}"
+                    class="nav-link {{ request()->routeIs('ulasan.*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-star-fill"></i>
                         <p>Rating & Ulasan</p>
                     </a>

@@ -45,7 +45,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href=""{{ route('pelanggan.ulasan.index') }}""
+                        class="nav-link {{ request()->routeIs('pelanggan.ulasan.*') ? 'active' : '' }}">
                         <i class="bi bi-star-fill me-2"></i>
                         <p>Rating & Ulasan</p>
                     </a>
