@@ -12,14 +12,19 @@ use App\Http\Controllers\admin\UlasanController as AdminUlasanController;
 use App\Http\Controllers\pelanggan\DashboardPelangganController;
 use App\Http\Controllers\pelanggan\KeranjangController;
 use App\Http\Controllers\pelanggan\OrderController;
-use App\Http\Controllers\pelanggan\UlasanController;
+use App\Http\Controllers\pelanggan\UlasanController as PelangganUlasanController;
 //use App\Http\Controllers\pelanggan\CartController;
 //use App\Http\Controllers\pelanggan\OrderController;
 use App\Http\Controllers\karyawan\OrderController as KaryawanOrderController;
 use App\Http\Controllers\pelanggan\LayananController as PelangganLayananController;
 use App\Http\Controllers\karyawan\DashboardKaryawanController;
 use App\Http\Controllers\karyawan\UlasanController as KaryawanUlasanController;
-
+use App\Http\Controllers\owner\DashboardOwnerController;
+use App\Http\Controllers\owner\KaryawanController as OwnerKaryawanController;
+use App\Http\Controllers\owner\ManajemenUserController as OwnerManajemenUserController;
+use App\Http\Controllers\owner\LayananController as OwnerLayananController;
+use App\Http\Controllers\owner\OrderController as OwnerOrderController;
+use App\Http\Controllers\owner\UlasanController as OwnerUlasanController;
 
 // Routes untuk admin (dengan RoleMiddleware jika ingin batasi akses hanya untuk admin)
 Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])
@@ -51,7 +56,7 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':pelang
         // Ini sesuaikan URL-nya jadi konsisten dengan prefix 'order' (bukan 'orders')
         Route::get('/order/{order}/payment', [OrderController::class, 'paymentForm'])->name('order.paymentForm');
         Route::post('/order/{order}/payment', [OrderController::class, 'processPayment'])->name('order.processPayment');
-        Route::resource('ulasan', UlasanController::class);
+        Route::resource('ulasan', PelangganUlasanController::class);
     });
 
 Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':karyawan'])
@@ -64,8 +69,19 @@ Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':karyaw
         Route::post('order/{order}/konfirmasi-pembayaran', [KaryawanOrderController::class, 'konfirmasiPembayaran'])->name('order.konfirmasiPembayaran');
         Route::resource('ulasan', KaryawanUlasanController::class);
     });
-// ...z
 
+    Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':owner'])
+    ->prefix('owner')
+    ->name('owner.')
+    ->group(function () {
+        Route::get('/dashboard', [DashboardOwnerController::class, 'index'])->name('dashboard');
+        Route::resource('manajemen_user', OwnerManajemenUserController::class);
+        Route::resource('karyawan', OwnerKaryawanController::class);
+        Route::resource('layanan', OwnerLayananController::class);
+        Route::resource('order', OwnerOrderController::class)->only(['index']);
+        Route::post('order/{order}/konfirmasi-pembayaran', [OwnerOrderController::class, 'konfirmasiPembayaran'])->name('order.konfirmasiPembayaran');
+        Route::resource('ulasan', OwnerUlasanController::class);
+    });
 
 
 

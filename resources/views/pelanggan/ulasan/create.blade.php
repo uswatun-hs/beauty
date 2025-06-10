@@ -3,7 +3,21 @@
 @section('content')
 <div class="container mt-4">
     <h4 class="mb-4 fw-bold">Tambah Ulasan</h4>
-
+    <style>
+    .star {
+        font-size: 7rem;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+        padding: 0 5px;
+        }
+         input:checked ~ label,
+        input:checked + label,
+        .rating-select:hover label:hover,
+        .rating-select:hover label:hover ~ label {
+            color: gold !important;
+        }
+    </style>
     <form action="{{ route('pelanggan.ulasan.store') }}" method="POST">
         @csrf
 
@@ -21,12 +35,15 @@
                 @endforeach
             </select>
         </div>
-
         <div class="mb-3">
-            <label for="rating" class="form-label">Rating (1–5)</label>
-            <input type="number" name="rating" class="form-control" min="1" max="5" required>
+            <label class="form-label">Rating</label>
+            <div class="rating-select d-flex flex-row-reverse justify-content-center">
+                @for ($i = 5; $i >= 1; $i--)
+                    <input type="radio" id="bintang{{ $i }}" name="rating" value="{{ $i }}" hidden>
+                    <label for="bintang{{ $i }}" class="star">&#9733;</label>
+                @endfor
+            </div>
         </div>
-
         <div class="mb-3">
             <label for="ulasan" class="form-label">Ulasan</label>
             <textarea name="ulasan" class="form-control" rows="4" required></textarea>
