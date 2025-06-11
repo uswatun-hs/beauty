@@ -12,7 +12,8 @@
                     <th>Status</th>
                     <th>Detail Pesanan</th>
                     <th>Tanggal Pesan</th>
-                    <th>Bukti Pembayaran</th>
+                    {{-- <th>Bukti Pembayaran</th> --}}
+                    <th>Status Pembayaran</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -55,7 +56,7 @@
                             </ul>
                         </td>
                         <td>{{ $order->created_at->format('d M Y H:i') }}</td>
-                        <td>
+                        {{-- <td>
                             @if ($order->bukti_pembayaran)
                                 <a href="{{ asset('storage/' . $order->bukti_pembayaran) }}" target="_blank"
                                     class="btn btn-sm btn-info">
@@ -64,7 +65,19 @@
                             @else
                                 <span class="text-muted">Belum diupload</span>
                             @endif
+                        </td> --}}
+                        <td>
+                            @if ($order->payment_status === 'settlement')
+                                <span class="badge bg-success">Lunas</span>
+                            @elseif ($order->payment_status === 'pending')
+                                <span class="badge bg-warning">Menunggu</span>
+                            @elseif ($order->payment_status === 'expire')
+                                <span class="badge bg-danger">Kadaluarsa</span>
+                            @else
+                                <span class="badge bg-secondary">{{ ucfirst($order->payment_status) }}</span>
+                            @endif
                         </td>
+
 
                         <td>
                             @if ($order->status === 'menunggu_konfirmasi' && $order->bukti_pembayaran)

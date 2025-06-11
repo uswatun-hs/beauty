@@ -8,8 +8,16 @@ use App\Models\pelanggan\OrderDetail;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id', 'status'];
-
+    protected $fillable = [
+        'user_id',
+        'status',
+        'payment_status',
+        'payment_type',
+        'midtrans_order_id',
+        'gross_amount',
+        'transaction_time',
+        'bukti_pembayaran'
+    ];
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'order_id');
